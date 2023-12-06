@@ -57,31 +57,22 @@ namespace AdventOfCode2023
 
             foreach (var cubeAmount in colourInfo)
             {
-                if (cubeAmount.Contains("red"))
+                if (cubeAmount.Contains("red") && !IsRedValid(cubeAmount))
                 {
-                    if (!IsRedValid(cubeAmount))
-                    {
-                        result = false;
-                        break;
-                    }
+                    result = false;
+                    break;
                 }
 
-                if (cubeAmount.Contains("green"))
+                if (cubeAmount.Contains("green") && !IsGreenValid(cubeAmount))
                 {
-                    if (!IsGreenValid(cubeAmount))
-                    {
-                        result = false;
-                        break;
-                    }
+                    result = false;
+                    break;
                 }
 
-                if (cubeAmount.Contains("blue"))
+                if (cubeAmount.Contains("blue") && !IsBlueValid(cubeAmount))
                 {
-                    if (!IsBlueValid(cubeAmount))
-                    {
-                        result = false;
-                        break;
-                    }
+                    result = false;
+                    break;
                 }
             }
 
@@ -90,22 +81,21 @@ namespace AdventOfCode2023
 
         private static bool IsBlueValid(string cubeAmount)
         {
-            var numbers = cubeAmount.ToCharArray().Where(x => char.IsNumber(x));
-
-            var sb = new StringBuilder();
-
-            foreach (var number in numbers)
-            {
-                sb.Append(number.ToString());
-            }
-
-            var finalCount = int.Parse(sb.ToString());
-
-            return finalCount <= BlueAmount;
+            return getNumberFromString(cubeAmount) <= BlueAmount;
         }
 
         private static bool IsRedValid(string cubeAmount)
         {
+            return getNumberFromString(cubeAmount) <= RedAmount;
+        }
+
+        private static bool IsGreenValid(string cubeAmount)
+        {
+            return getNumberFromString(cubeAmount) <= GreenAmount;
+        }
+
+        private static int getNumberFromString(string cubeAmount)
+        {
             var numbers = cubeAmount.ToCharArray().Where(x => char.IsNumber(x));
 
             var sb = new StringBuilder();
@@ -117,23 +107,7 @@ namespace AdventOfCode2023
 
             var finalCount = int.Parse(sb.ToString());
 
-            return finalCount <= RedAmount;
-        }
-
-        private static bool IsGreenValid(string cubeAmount)
-        {
-            var numbers = cubeAmount.ToCharArray().Where(x => char.IsNumber(x));
-
-            var sb = new StringBuilder();
-
-            foreach(var number in numbers)
-            {
-                sb.Append(number.ToString());
-            }
-
-            var finalCount = int.Parse(sb.ToString());
-
-            return finalCount <= GreenAmount;
+            return finalCount;
         }
     }
 }
