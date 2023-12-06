@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2023
+﻿using System.Net.WebSockets;
+
+namespace AdventOfCode2023
 {
     public static class Day1
     {
@@ -27,6 +29,49 @@
             var charArray = input.ToCharArray();
 
             return charArray.Where(x => char.IsNumber(x)).ToList();
+        }
+
+        public static int Puzzle2Solution()
+        {
+            var strings = input.Split("\r\n");
+
+            int result = 0;
+
+            foreach (var sequence in strings)
+            {
+                var convertedString = ConvertStringsToNumbers(sequence);
+
+                var numbers = RemoveCharacters(convertedString);
+
+                var firstAndLastNumber = $"{numbers.First()}{numbers.Last()}";
+
+                result += int.Parse(firstAndLastNumber);
+            }
+
+            return result;
+        }
+
+        private static string ConvertStringsToNumbers(string sequence)
+        {
+            sequence = sequence.Replace("one", "o1e");
+
+            sequence = sequence.Replace("two", "t2o");
+
+            sequence = sequence.Replace("three", "t3e");
+
+            sequence = sequence.Replace("four", "f4r");
+
+            sequence = sequence.Replace("five", "f5e");
+
+            sequence = sequence.Replace("six", "s6x");
+
+            sequence = sequence.Replace("seven", "s7n");
+
+            sequence = sequence.Replace("eight", "e8t");
+
+            sequence = sequence.Replace("nine", "n9e");
+
+            return sequence;
         }
     }
 }
