@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Xml.Schema;
 
@@ -108,6 +109,59 @@ namespace AdventOfCode2023
             var finalCount = int.Parse(sb.ToString());
 
             return finalCount;
+        }
+
+        public static int Puzzle2Solution()
+        {
+            var listOfPowers = new List<int>();
+
+            int total = 0;
+
+            var games = input.Split("\r\n");
+
+            int count = 1;
+
+            foreach (var game in games)
+            {
+                int numberOfReds = 0;
+                int numberOfGreens = 0;
+                int numberOfBlues = 0;
+
+                var stringWithoutGameNumber = game.Remove(0, 6 + count.ToString().ToCharArray().Count());
+
+                var rounds = stringWithoutGameNumber.Split(";").ToList();
+
+                foreach (var listOfColours in rounds)
+                {
+                    var colourInfo = listOfColours.Split(",").ToList();
+
+                    foreach (var colour in colourInfo)
+                    {
+                        if (colour.Contains("red") && getNumberFromString(colour) > numberOfReds)
+                        {
+                            numberOfReds = getNumberFromString(colour);
+                        }
+
+                        if (colour.Contains("green") && getNumberFromString(colour) > numberOfGreens)
+                        {
+                            numberOfGreens = getNumberFromString(colour);
+                        }
+
+                        if (colour.Contains("blue") && getNumberFromString(colour) > numberOfBlues)
+                        {
+                            numberOfBlues = getNumberFromString(colour);
+                        }
+                    }
+                }
+
+                var power = numberOfReds * numberOfGreens * numberOfBlues;
+
+                listOfPowers.Add(power);
+
+                count++;
+            }
+
+            return listOfPowers.Sum();
         }
     }
 }
